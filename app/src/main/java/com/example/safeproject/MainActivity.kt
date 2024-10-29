@@ -3,6 +3,8 @@ package com.example.safeproject
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.safeproject.databinding.ActivityMainBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding

@@ -1,29 +1,11 @@
 {
   "project_info": {
     "project_number": "8424747535",
+    "firebase_url": "https://safeapp-eec81-default-rtdb.firebaseio.com",
     "project_id": "safeapp-eec81",
     "storage_bucket": "safeapp-eec81.appspot.com"
   },
   "client": [
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:8424747535:android:fa59def675b16d3d98297a",
-        "android_client_info": {
-          "package_name": "com.example.safeapp"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAo0LPigvahGtGf7vh6P61BHuPSgUm_4X8"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
     {
       "client_info": {
         "mobilesdk_app_id": "1:8424747535:android:3c8fb67aeff1d50598297a",
