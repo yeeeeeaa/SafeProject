@@ -9,5 +9,9 @@ data class Friend (
     val cup : Int? = 0,
     val food : Int? = 0,
     val steps : Int? = 0,
-    val score : Int? = 0
+    val score : Int? = 0,
+    val total_cup : Int? = 0,
+    val total_food : Int? = 0,
+    val total_steps : Int? = 0,
+    val total_score : Int? = 0
 )

@@ -59,14 +59,13 @@ class FoodActivity : AppCompatActivity() {
 
     companion object {
         const val REQ_GALLERY = 1
-        //const val RESULT_FILE = "res.txt"
-        //"D:/yolov5/SafeProject/app/src/main/assets/res.txt"
     }
 
     private lateinit var binding: ActivityFoodBinding
     private val retrofit = RetrofitInstance.getInstance().create(SafeApi::class.java)
-    private lateinit var mCallTodoList: retrofit2.Call<String>
+    private lateinit var mCallTodoList: Call<String>
     private lateinit var mProgressDialog: ProgressDialog
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityFoodBinding.inflate(layoutInflater)
@@ -150,10 +149,21 @@ class FoodActivity : AppCompatActivity() {
         }, 35000) //1초 후 실행
     }
 
-    private val mRetrofitCallback = (object : retrofit2.Callback<String> {
+    private val mRetrofitCallback = (object : Callback<String> {
+        val resultMap = mapOf("beeftartare" to "육회",
+            "boiledpork" to "수육", "fish" to "생선", "galbijjim" to "갈비찜",
+            "gukbap" to "고기국밥", "steamedegg" to "계란찜")
         override fun onResponse(call: Call<String>, response: Response<String>) {
-            val result = response.body()
-            Log.d("testt", "결과는 ${result}")
+            val result = response.body().toString().trim().replace("^\"|\"$".toRegex(), "")
+            if (result == "vegetable"){
+                val toast = Toast.makeText(this@FoodActivity, "채식 인증이 완료되었습니다!", Toast.LENGTH_LONG)
+                toast.show()
+            }
+            else{
+                val food = resultMap[result]
+                val toast = Toast.makeText(this@FoodActivity, "!!식단에 $food 포함됨!!", Toast.LENGTH_LONG)
+                toast.show()
+            }
 
         }
 
@@ -167,22 +177,3 @@ class FoodActivity : AppCompatActivity() {
         mCallTodoList.enqueue(mRetrofitCallback) // 응답을 큐에 넣어 대기 시켜놓음. 즉, 응답이 생기면 뱉어낸다.
     }
 }
-        /*Handler(Looper.getMainLooper()).postDelayed({
-            mProgressDialog.dismiss()//Do something
-            println("로딩")
-            try {
-                val inputStream = resources.openRawResource(R.raw.res)
-                val inputStreamReader = InputStreamReader(inputStream,"UTF-8")
-                val bufferedReader = BufferedReader(inputStreamReader)
-
-                val stringBuffer = StringBuffer()
-                println("니가 왜 나와")
-                stringBuffer.append(bufferedReader.readLine())
-
-                bufferedReader.close()
-
-                Toast.makeText(this, stringBuffer, Toast.LENGTH_SHORT).show()
-            }catch (e : IOException){
-                Toast.makeText(this, "파일 없음", Toast.LENGTH_SHORT).show()
-            }
-        }, 35000) //1초 후 실행*/

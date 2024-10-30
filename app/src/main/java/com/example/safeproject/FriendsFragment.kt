@@ -48,12 +48,12 @@ class FriendsFragment : Fragment() {
         myRef.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 for (data in dataSnapshot.children) {
+                    println(data)
                     val item = data.getValue(Friend::class.java)
                     // UID 값을 변수에 저장
                     if (item?.uid.equals(uid)) { continue }
                     friend.add(item!!)
                 }
-                println(friend[0].nickname)
                 val friendsAdapter = FriendsAdapter(friend)
                 recyclerView.adapter = friendsAdapter
             }
