@@ -10,10 +10,17 @@ import retrofit2.http.Part
 
 interface SafeApi {
     @Multipart
-    @POST("/save/image")
-    fun sendImage(
+    @POST("/save/food")
+    fun sendFoodImage(
         @Part imageFile: MultipartBody.Part
     ): Call<String>
+
+    @Multipart
+    @POST("/save/cup")
+    fun sendCupImage(
+        @Part imageFile: MultipartBody.Part
+    ): Call<String>
+
     @GET("/res") // 서버에 GET 요청을 할 주소 입력
     fun getRes() : Call<String> // json 파일을 가져오는 메소드
 }

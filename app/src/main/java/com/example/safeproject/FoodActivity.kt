@@ -50,7 +50,7 @@ class FoodActivity : AppCompatActivity() {
 
             Log.d("testt", file.name)
 
-            sendImage(body)
+            sendFoodImage(body)
 
             binding.imageGallery.setImageURI(imageUri)
 
@@ -125,8 +125,8 @@ class FoodActivity : AppCompatActivity() {
     }
 
 
-    private fun sendImage(body: MultipartBody.Part) {
-        retrofit.sendImage(body).enqueue(object : Callback<String> {
+    private fun sendFoodImage(body: MultipartBody.Part) {
+        retrofit.sendFoodImage(body).enqueue(object : Callback<String> {
             override fun onResponse(call: Call<String>, response: Response<String>) {
                 if (response.isSuccessful) {
                     Toast.makeText(this@FoodActivity, "이미지 전송 성공", Toast.LENGTH_SHORT).show()
