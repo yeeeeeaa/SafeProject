@@ -18,6 +18,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.safeproject.databinding.ActivityFoodBinding
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -65,6 +71,11 @@ class FoodActivity : AppCompatActivity() {
     private val retrofit = RetrofitInstance.getInstance().create(SafeApi::class.java)
     private lateinit var mCallTodoList: Call<String>
     private lateinit var mProgressDialog: ProgressDialog
+    private lateinit var database: FirebaseDatabase
+    private var foodCount = 0
+    private var scoreCount = 0.0
+    private var check = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -154,8 +165,51 @@ class FoodActivity : AppCompatActivity() {
             "boiledpork" to "수육", "fish" to "생선", "galbijjim" to "갈비찜",
             "gukbap" to "고기국밥", "steamedegg" to "계란찜")
         override fun onResponse(call: Call<String>, response: Response<String>) {
+            database = FirebaseDatabase.getInstance()
+            val uid = Firebase.auth.currentUser?.uid.toString()
+            var random_id = ""
             val result = response.body().toString().trim().replace("^\"|\"$".toRegex(), "")
-            if (result == "vegetable"){
+            if (result == "none"){
+                check = 1
+                database.getReference("users").addListenerForSingleValueEvent(object :
+                    ValueEventListener {
+                    override fun onDataChange(dataSnapshot: DataSnapshot) {
+                        for (data in dataSnapshot.children) {
+                            val item = data.getValue(Friend::class.java)
+                            // UID 값을 변수에 저장
+                            if (item?.uid.equals(uid)) {
+                                random_id = data.key.toString()
+                                if (item != null) {
+                                    foodCount = check + item.food!!
+                                    scoreCount = (check * 4.48) + item.score!!
+                                    check = 0
+                                }
+                                item?.let {
+                                    val updateStep = mapOf(
+                                        "food" to foodCount, // name 필드만 업데이트
+                                        "score" to scoreCount
+                                    )
+                                    database.getReference("users").child(random_id).updateChildren(updateStep)
+                                        .addOnCompleteListener { task ->
+                                            if (task.isSuccessful) {
+                                                val toast = Toast.makeText(this@FoodActivity, "다회용컵 사용이 인증되었습니다!", Toast.LENGTH_LONG)
+                                                toast.show()
+                                            } else {
+                                                Log.e(
+                                                    "FirebaseError",
+                                                    "데이터 업데이트 실패: ${task.exception?.message}"
+                                                )
+                                            }
+                                        }
+                                }
+                            }
+                        }
+
+                    }
+                    override fun onCancelled(error: DatabaseError) {
+                        // 데이터를 읽는 데 실패할 때 호출됩니다.
+                    }
+                })
                 val toast = Toast.makeText(this@FoodActivity, "채식 인증이 완료되었습니다!", Toast.LENGTH_LONG)
                 toast.show()
             }

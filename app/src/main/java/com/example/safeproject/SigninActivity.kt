@@ -65,7 +65,7 @@ class SigninActivity : AppCompatActivity() {
                 if (task.isSuccessful) {
                     val uid = auth.currentUser?.uid
                     val user = Friend(
-                        uid, nickname, 0, 0, 0, 0, 0, 0, 0
+                        uid, nickname, 0, 0, 0, 0.0, 0, 0, 0, 0.0
                     )
                     myRef.push().setValue(user)
                     Toast.makeText(this, "회원가입 완료", Toast.LENGTH_SHORT).show()

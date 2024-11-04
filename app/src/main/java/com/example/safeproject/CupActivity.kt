@@ -62,6 +62,7 @@ class CupActivity : AppCompatActivity() {
     private lateinit var mProgressDialog: ProgressDialog
     private lateinit var database: FirebaseDatabase
     private var cupCount = 0
+    private var scoreCount = 0.0
     private var check = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -169,11 +170,14 @@ class CupActivity : AppCompatActivity() {
                                 random_id = data.key.toString()
                                 if (item != null) {
                                     cupCount = check + item.cup!!
+                                    scoreCount = ((check * 5) + item.score!!).toDouble()
                                     check = 0
+                                    println(scoreCount)
                                 }
                                 item?.let {
-                                    val updateStep = mapOf<String, Int>(
-                                        "cup" to cupCount // name 필드만 업데이트
+                                    val updateStep = mapOf(
+                                        "cup" to cupCount, // name 필드만 업데이트
+                                        "score" to scoreCount
                                     )
                                     database.getReference("users").child(random_id).updateChildren(updateStep)
                                         .addOnCompleteListener { task ->

@@ -1,5 +1,20 @@
 <resources>
     <string name="app_name">SafeProject</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="c1">산호초는 지구상 가장 많은 생물다양성을 보유하고 있는 생태계입니다. 하지만 바닷물 온도가 높아지면서 화려한 색을 잃고 죽어가고 있습니다.</string>
+    <string name="c2">바다거북은 지구 온도 상승으로 인해 수분이 많고 시원해야 부화할 수 있는 수컷이 거의 태어나지 않고 있습니다. 지난 20년 간 태어난 99%의 바다거북이 암컷이었습니다.</string>
+    <string name="c3">자이언트 판다는 기후변화로 인해 영양뿐만 아니라 서식처를 제공하는 대나무 숲이 빠른 속도로 없어지고 있습니다. 2014년 기준 약 1,800 마리만이 야생에 살고 있습니다.</string>
+    <string name="c4">아프리카 치타는 극심한 폭염으로 인해 수컷의 호르몬 수치가 낮아져 더 이상 아이를 가질 수 없는 상태가 되었습니다. 이제 단 7,100 마리밖에 남지 않았습니다.</string>
+    <string name="c5">벵갈 호랑이는 기후변화로 인한 해수면 상승으로 서식처가 물에 잠길 위기에 처했습니다. 유엔에서는 2070년에 서식처 습지가 모두 물에 잠겨 완전 멸종할 것이라 경고했습니다.</string>
+
+    <string name="sa">사향노루</string>
+    <string name="ha">하늘다람쥐</string>
+    <string name="owl">긴점박이 올빼미</string>
+    <string name="ddak">까막딱따구리</string>
+
+    <string name="Info1">정보1</string>
+    <string name="Info2">정보2</string>
+    <string name="Info3">정보3</string>
+    <string name="Info4">정보4</string>
+    <string name="Info5">정보5</string>
 </resources>

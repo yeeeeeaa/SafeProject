@@ -6,6 +6,7 @@ import android.hardware.Sensor
 import android.hardware.SensorEvent
 import android.hardware.SensorEventListener
 import android.hardware.SensorManager
+import android.icu.text.DecimalFormat
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
@@ -20,6 +21,8 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.ktx.Firebase
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 class StepActivity : AppCompatActivity(), SensorEventListener {
 
@@ -28,6 +31,8 @@ class StepActivity : AppCompatActivity(), SensorEventListener {
     private var initialStepCount = 0 // 초기 걸음 수 저장 변수
     private var stepCount = 0
     private var steps = 0
+    private var scoreCount = 0.0
+
     private lateinit var stepCountTextView: TextView
     private lateinit var stepCountBtn: Button
 
@@ -59,10 +64,13 @@ class StepActivity : AppCompatActivity(), SensorEventListener {
                             if (item != null) {
                                 println(stepCount)
                                 steps = stepCount + item.steps!!
+                                scoreCount = roundToTwoDecimalPlaces(((stepCount * 237.9) * 0.001) + item.score!!)
+                                println((stepCount * 237.9) * (1/1000))
                             }
                             item?.let {
-                                val updateStep = mapOf<String, Int>(
-                                    "steps" to steps // name 필드만 업데이트
+                                val updateStep = mapOf(
+                                    "steps" to steps, // name 필드만 업데이트
+                                    "score" to scoreCount
                                 )
                                 database.getReference("users").child(random_id).updateChildren(updateStep)
                                     .addOnCompleteListener { task ->
@@ -93,7 +101,10 @@ class StepActivity : AppCompatActivity(), SensorEventListener {
             })
         }
     }
-
+    fun roundToTwoDecimalPlaces(value: Double): Double {
+        val bd = BigDecimal(value)
+        return bd.setScale(2, RoundingMode.HALF_UP).toDouble()
+    }
     override fun onResume() {
         super.onResume()
         // 센서 재등록
