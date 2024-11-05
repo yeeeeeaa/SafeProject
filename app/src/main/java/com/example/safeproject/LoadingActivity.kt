@@ -1,10 +1,11 @@
 package com.example.safeproject
 
 import android.app.Dialog
+import android.content.Context
 import android.os.Bundle
 import com.example.safeproject.databinding.ActivityLoadingBinding
 
-class LoadingActivity(owner : FoodActivity) : Dialog(owner) {
+class LoadingActivity constructor(context: Context) : Dialog(context) {
 
     private lateinit var binding : ActivityLoadingBinding
 
@@ -13,5 +14,6 @@ class LoadingActivity(owner : FoodActivity) : Dialog(owner) {
         binding = ActivityLoadingBinding.inflate(layoutInflater).also {
             setContentView(it.root)
         }
+        setCancelable(false)
     }
 }

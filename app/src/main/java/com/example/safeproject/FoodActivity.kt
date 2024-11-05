@@ -40,6 +40,8 @@ import java.io.BufferedReader
 import java.io.File
 import java.io.IOException
 import java.io.InputStreamReader
+import java.math.BigDecimal
+import java.math.RoundingMode
 
 
 class FoodActivity : AppCompatActivity() {
@@ -151,9 +153,10 @@ class FoodActivity : AppCompatActivity() {
             }
 
         })
-        mProgressDialog.show()
+        val dialog = LoadingActivity(this@FoodActivity)
+        dialog.show()
         Handler(Looper.getMainLooper()).postDelayed({
-            mProgressDialog.dismiss()//Do something
+            dialog.dismiss()//Do something
 
             println("로딩")
             callText()
@@ -181,7 +184,7 @@ class FoodActivity : AppCompatActivity() {
                                 random_id = data.key.toString()
                                 if (item != null) {
                                     foodCount = check + item.food!!
-                                    scoreCount = (check * 4.48) + item.score!!
+                                    scoreCount = roundToTwoDecimalPlaces((check * 4.48) + item.score!!)
                                     check = 0
                                 }
                                 item?.let {
@@ -226,6 +229,11 @@ class FoodActivity : AppCompatActivity() {
             Log.d("testt", "에러입니다. ${t.message}")
         }
     })
+
+    fun roundToTwoDecimalPlaces(value: Double): Double {
+        val bd = BigDecimal(value)
+        return bd.setScale(2, RoundingMode.HALF_UP).toDouble()
+    }
     private fun callText(){
         mCallTodoList = retrofit.getRes() // RetrofitAPI 에서 JSON 객체를 요청해서 반환하는 메소드 호출
         mCallTodoList.enqueue(mRetrofitCallback) // 응답을 큐에 넣어 대기 시켜놓음. 즉, 응답이 생기면 뱉어낸다.

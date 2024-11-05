@@ -27,11 +27,33 @@ class FriendsAdapter(private val friend: ArrayList<Friend>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        Glide.with(holder.itemView.context).load(R.drawable.friends)
-            .apply(RequestOptions().circleCrop())
-            .into(holder.imageView)
+        val scoreCount = friend[position].score!!
+
         holder.textViewNick.text = friend[position].nickname
         holder.textViewScore.text = friend[position].score.toString()
+
+        if (scoreCount <= 30){
+            holder.imageView.setImageResource(R.drawable.san)
+            return
+        } else if (scoreCount <= 60){
+            holder.imageView.setImageResource(R.drawable.geo)
+            return
+        } else if (scoreCount <= 90){
+            holder.imageView.setImageResource(R.drawable.pan)
+            return
+        } else if (scoreCount <= 120){
+            holder.imageView.setImageResource(R.drawable.chi)
+            return
+        } else if (scoreCount <= 150){
+            holder.imageView.setImageResource(R.drawable.ho)
+            return
+        } else if (scoreCount <= 180){
+            holder.imageView.setImageResource(R.drawable.sa)
+            return
+        } else if (180 < scoreCount){
+            holder.imageView.setImageResource(R.drawable.ha)
+            return
+        }
     }
 
     override fun getItemCount(): Int {

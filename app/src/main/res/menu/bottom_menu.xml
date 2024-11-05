@@ -4,17 +4,21 @@
     <item android:title="홈"
         android:enabled="true"
         android:id="@+id/HomeFragment"
+        android:fontFamily="@font/ggot"
         android:icon="@drawable/home" />
     <item android:title="친구 목록"
         android:enabled="true"
         android:id="@+id/FriendsFragment"
+        android:fontFamily="@font/ggot"
         android:icon="@drawable/list" />
     <item android:title="인증"
         android:enabled="true"
         android:id="@+id/CheckFragment"
+        android:fontFamily="@font/ggot"
         android:icon="@drawable/check" />
     <item android:title="내 정보"
         android:enabled="true"
         android:id="@+id/InfoFragment"
+        android:fontFamily="@font/ggot"
         android:icon="@drawable/profile" />
 </menu>

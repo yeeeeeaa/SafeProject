@@ -12,11 +12,13 @@ import android.os.Handler
 import android.os.Looper
 import android.provider.MediaStore
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.example.safeproject.databinding.ActivityCupBinding
+import com.example.safeproject.databinding.ActivityLoadingBinding
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -59,11 +61,11 @@ class CupActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCupBinding
     private val retrofit = RetrofitInstance.getInstance().create(SafeApi::class.java)
     private lateinit var mCallTodoList: Call<String>
-    private lateinit var mProgressDialog: ProgressDialog
     private lateinit var database: FirebaseDatabase
     private var cupCount = 0
     private var scoreCount = 0.0
     private var check = 0
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -74,7 +76,6 @@ class CupActivity : AppCompatActivity() {
                 selectGallery()
             }
         }
-        mProgressDialog = ProgressDialog(this) // Dialog 생성
     }
 
     private fun selectGallery() {
@@ -139,9 +140,10 @@ class CupActivity : AppCompatActivity() {
             }
 
         })
-        mProgressDialog.show()
+        val dialog = LoadingActivity(this@CupActivity)
+        dialog.show()
         Handler(Looper.getMainLooper()).postDelayed({
-            mProgressDialog.dismiss()//Do something
+            dialog.dismiss()//Do something
 
             println("로딩")
             callText()
@@ -170,7 +172,7 @@ class CupActivity : AppCompatActivity() {
                                 random_id = data.key.toString()
                                 if (item != null) {
                                     cupCount = check + item.cup!!
-                                    scoreCount = ((check * 5) + item.score!!).toDouble()
+                                    scoreCount = ((check * 5) + item.score!!)
                                     check = 0
                                     println(scoreCount)
                                 }
