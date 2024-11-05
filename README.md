@@ -37,7 +37,7 @@ class uploadging(Resource):
     def post(self):
         f = request.files['food']
         f.save(secure_filename(f'food.jpg'))
-        os.system('cd D:/yolov5')
+        os.system('cd yolov5 폴더 경로')
         os.system('python detect.py --weights "SafeProject/app/src/main/assets/best_food.tflite" --source "food.jpg"')
     
         return {"isUploadSuccess" : "success"}
@@ -47,7 +47,7 @@ class uploadging(Resource):
     def post(self):
         f = request.files['cup']
         f.save(secure_filename(f'cup.jpg'))
-        os.system('cd D:/yolov5')
+        os.system('cd yolov5 폴더 경로')
         os.system('python detect.py --weights "SafeProject/app/src/main/assets/best_cup.tflite" --source "cup.jpg"')
     
         return {"isUploadSuccess" : "success"}
