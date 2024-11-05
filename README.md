@@ -4,15 +4,78 @@
 그 결과 자신이 어느 정도의 **탄소배출량**을 **절약**했는지 직접 확인하여 **환경** **문제**에 대한 관심을 고취시켜
 최종적으로 환경 문제를 앓고 있는 지구를 위해 개개인이 할 수 있는 사소하지만 중요한 일에 대한 **인식**을 제공한다.  
 
+       
+## 실행 방법
+ : yolov5를 clone한 파일 안에 해당 git 폴더를 넣고   
+ detect.py 속에 모델 결과를 텍스트 파일에 적는 코드를 추가하고
+ ```python
+    with open("SafeProject/app/src/main/res/raw/res.txt", 'wb') as file:
+        try:
+            res = names[int(c)]
+            res = res.encode('utf-8')  # 추가
+            file.write(res)
+        except:
+            file.write("none".encode('utf-8'))
+```
+<br/>
+   
+파이썬 코드를 통한 결과 데이터를 안드로이드 스튜디오와 송수신하기 위한 flask 코드 파일을 만들어 실행시킨 뒤 안드로이드 스튜디오 앱을 실행시키면 AI모델이 작동한다.
+```python
+from urllib import request
+from flask import Flask, request
+from flask_restx import Resource, Api
+from werkzeug.utils import secure_filename
+
+import os
+
+# Flask 인스턴스 정리
+app = Flask(__name__)
+api = Api(app)
+
+@api.route('/save/food')
+class uploadging(Resource):
+    def post(self):
+        f = request.files['food']
+        f.save(secure_filename(f'food.jpg'))
+        os.system('cd D:/yolov5')
+        os.system('python detect.py --weights "SafeProject/app/src/main/assets/best_food.tflite" --source "food.jpg"')
+    
+        return {"isUploadSuccess" : "success"}
+    
+@api.route('/save/cup')
+class uploadging(Resource):
+    def post(self):
+        f = request.files['cup']
+        f.save(secure_filename(f'cup.jpg'))
+        os.system('cd D:/yolov5')
+        os.system('python detect.py --weights "SafeProject/app/src/main/assets/best_cup.tflite" --source "cup.jpg"')
+    
+        return {"isUploadSuccess" : "success"}
+
+class result(Resource):
+    def get(self):
+        file = open('SafeProject/app/src/main/res/raw/res.txt', 'r')
+        res = file.read()
+        print(res)
+        file.close()
+        return res
+    
+api.add_resource(result, '/res')
+
+if __name__ == '__main__':
+    app.run(host="ip주소", port=8080, debug=True)  
+```
+
 <br/>
    
 ---
-      
+
+<img src="https://github.com/user-attachments/assets/13365e60-a0b7-47dc-8863-aaf204820709" width="300" height="500"/>
+            
 ### 1. 다회용컵 사용 인증
 ### 2. 채식 인증
 ### 3. 걸음 수 인증 
 
-   <img src="https://github.com/user-attachments/assets/13365e60-a0b7-47dc-8863-aaf204820709" width="300" height="500"/>
 <br/>
 
 ---
